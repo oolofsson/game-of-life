@@ -1,19 +1,46 @@
 public class Grid {
 
     private boolean[][] cells; 
+    private int size;
 
     public Grid(int size) {
+        this.size = size;
         this.cells = new boolean[size][size]; 
     }
-    private void updateCellState(int row, int col) {
-        int numberOfLiveNeighbours = this.getNumberOfLiveNeighbours(row, col);
+    public int getSize() {
+        return this.size;
     }
-    private int getNumberOfLiveNeighbours(int row, int col) {
-        int numberOfLiveNeighbours = 0;
-        for(int neighBourRow = row - 1; neighBourRow <= row + 1; neighBourRow++){
-            for(int neighBourCol = col - 1; neighBourCol <= col + 1; neighBourCol++){
-
+    public void updateCell(int row, int col, boolean isAlive) {
+        this.cells[row][col] = isAlive;
+    }
+    public boolean isCellAlive(int row, int col) {
+        return this.cells[row][col];
+    }
+    public boolean getNextCellState(int row, int col) {
+        int numberOfLivingNeighbours = this.getNumberOfLivingNeighbours(row, col);
+        if(this.isCellAlive(row, col) && (numberOfLivingNeighbours == 2 || numberOfLivingNeighbours == 3)) {
+            return true;
+        }else if(!this.isCellAlive(row, col) && numberOfLivingNeighbours == 3) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+    public int getNumberOfLivingNeighbours(int row, int col) {
+        int numberOfLivingNeighbours = 0;
+        int fromRow = Math.max(0, row - 1);
+        int fromCol = Math.max(0, col - 1);
+        int toRow = Math.min(this.getSize() - 1, row + 1);
+        int toCol = Math.min(this.getSize() - 1, col + 1);
+        for(int neighbourRow = fromRow; neighbourRow <= toRow; neighbourRow++){
+            for(int neighbourCol = fromCol; neighbourCol <= toCol; neighbourCol++){
+                boolean isCurrent = neighbourRow == row && neighbourCol == col;
+                if(!isCurrent && isCellAlive(neighbourRow, neighbourCol)) {
+                    numberOfLivingNeighbours++; 
+                }
             }
         }
+        //System.out.println(numberOfLivingNeighbours);
+        return numberOfLivingNeighbours;
     }
 }
