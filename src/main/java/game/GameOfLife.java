@@ -2,14 +2,14 @@ package game;
 import java.util.concurrent.TimeUnit;
 
 public class GameOfLife {
-    final static int GRID_SIZE = 20;
+    public final static int GRID_SIZE = 10;
 	public static void main(String[] args) {
        run(); 
     }
     public static void run(){
         Grid grid = new Grid(GRID_SIZE);
         seed(grid);
-        Screen screen = new Screen();
+        Screen screen = Screen.getInstance();
         while(true) {
             try {
                 screen.printGrid(grid);

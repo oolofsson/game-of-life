@@ -15,14 +15,14 @@ public class Grid {
     public void updateCell(int row, int col, boolean isAlive) {
         this.cells[row][col] = isAlive;
     }
-    public boolean isCellAlive(int row, int col) {
+    public boolean getCellState(int row, int col) {
         return this.cells[row][col];
     }
     public boolean getNextCellState(int row, int col) {
         int numberOfLivingNeighbours = this.getNumberOfLivingNeighbours(row, col);
-        if(this.isCellAlive(row, col) && (numberOfLivingNeighbours == 2 || numberOfLivingNeighbours == 3)) {
+        if(this.getCellState(row, col) && (numberOfLivingNeighbours == 2 || numberOfLivingNeighbours == 3)) {
             return true;
-        }else if(!this.isCellAlive(row, col) && numberOfLivingNeighbours == 3) {
+        }else if(!this.getCellState(row, col) && numberOfLivingNeighbours == 3) {
             return true;
         }else {
             return false;
@@ -37,12 +37,11 @@ public class Grid {
         for(int neighbourRow = fromRow; neighbourRow <= toRow; neighbourRow++){
             for(int neighbourCol = fromCol; neighbourCol <= toCol; neighbourCol++){
                 boolean isCurrent = neighbourRow == row && neighbourCol == col;
-                if(!isCurrent && isCellAlive(neighbourRow, neighbourCol)) {
+                if(!isCurrent && getCellState(neighbourRow, neighbourCol)) {
                     numberOfLivingNeighbours++; 
                 }
             }
         }
-        //System.out.println(numberOfLivingNeighbours);
         return numberOfLivingNeighbours;
     }
 }
