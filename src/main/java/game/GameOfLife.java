@@ -1,3 +1,4 @@
+package game;
 import java.util.concurrent.TimeUnit;
 
 public class GameOfLife {
@@ -20,6 +21,12 @@ public class GameOfLife {
         }
     }
     public static void seed(Grid grid) {
+        grid.updateCell(0, 0, true);
+        grid.updateCell(0, 2, true);
+        grid.updateCell(0, 1, true);
+        grid.updateCell(3, 1, true);
+        grid.updateCell(1, 1, true);
+        grid.updateCell(2, 2, true);
         grid.updateCell(3, 3, true);
         grid.updateCell(4, 5, true);
         grid.updateCell(4, 3, true);
@@ -31,8 +38,8 @@ public class GameOfLife {
         Grid nextGrid = new Grid(GRID_SIZE);
         for (int row = 0; row < currentGrid.getSize(); row++) { 
             for (int col = 0; col < currentGrid.getSize(); col++) { 
-                boolean shouldLive = currentGrid.getNextCellState(row, col);
-                nextGrid.updateCell(row, col, shouldLive);
+                boolean nextCellState = currentGrid.getNextCellState(row, col);
+                nextGrid.updateCell(row, col, nextCellState);
             } 
         }
         return nextGrid;
